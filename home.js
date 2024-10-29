@@ -19,5 +19,14 @@ async function fetchData() {
         headers: {
             "Access-Control-Allow-Credentials": true
         }
-    }).then(response => console.log("Response :", response.text));
+    }).then(response => response.json()).then(json => setData(json))//.catch(navLogin())
+}
+
+function setData(jsonArray) {
+    var profiles = document.getElementById("profiles").innerHTML
+    for (var user of jsonArray) {
+        document.getElementById("profiles").innerHTML += '<div id=\"profile\">' + JSON.stringify(user) + '</div></br></br>'
+    }
+
+    console.log(jsonA)
 }

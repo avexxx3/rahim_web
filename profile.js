@@ -29,6 +29,54 @@ submitFormButton.addEventListener("click", (e) => {
     updateProfile();
 })
 
+window.onload = function () {
+    fetchProfile()
+}
+
+function fetchProfile() {
+    const url = "https://rahim-api.onrender.com/get_profile";
+
+    fetch(url, {
+        method: 'GET',
+        credentials: 'include',
+        headers: {
+            "Access-Control-Allow-Credentials": true
+        }
+    }).then(response => response.json()).then(json => setData(json))// setData(json));
+}
+
+function setData(responseObject) {
+    if (!responseObject) {
+        submitFormButton.value = "Create profile"
+    } else submitFormButton.value = "Edit profile"
+
+    console.log(responseObject)
+    nameField.value = responseObject.bio_data.name
+    genderField.value = responseObject.bio_data.is_male
+    nationalityField.value = responseObject.bio_data.nationality
+    languageField.value = responseObject.bio_data.native_language
+    addictionField.value = responseObject.bio_data.addictions
+    aboutField.value = responseObject.about_oneself
+    hobbyField.value = responseObject.hobbies
+    countryField.value = responseObject.whereabouts.country
+    cityField.value = responseObject.whereabouts.city
+    arrangementField.value = responseObject.whereabouts.living_arrangement
+    qualifactionField.value = responseObject.qualifications.qualificiation
+    universityField.value = responseObject.qualifications.university
+    occupationField.value = responseObject.qualifications.occupation
+    incomeField.value = parseInt(responseObject.qualifications.monthly_income)
+    heightField.value = parseInt(responseObject.appearance.height)
+    weightField.value = parseInt(responseObject.appearance.weight)
+    skinField.value = responseObject.appearance.skin_color
+    fitnessField.value = responseObject.appearance.fit
+    ageMinField.value = parseInt(responseObject.age_range_min)
+    ageMaxField.value = parseInt(responseObject.age_range_max)
+    divorcedField.value = responseObject.family.divorced
+    childrenField.value = responseObject.family.children
+    parentsField.value = responseObject.family.parents
+    siblingsField.value = responseObject.family.siblings
+}
+
 function updateProfile() {
     const body = JSON.stringify({
         email: localStorage.getItem("email"),
@@ -62,10 +110,12 @@ function updateProfile() {
     const Http = new XMLHttpRequest();
     const url = "https://rahim-api.onrender.com/create_profile";
 
-    print("TEST");
-
     Http.open("POST", url);
     Http.setRequestHeader("Content-Type", "application/json");
     Http.withCredentials = true
     Http.send(body);
+}
+
+function navLogin() {
+    window.location.href = "login.html";
 }
